@@ -1,0 +1,129 @@
+Start a local repository:
+git init    - to initialise a local repo
+git config user.name "name"
+git config user.email "123@xyz.com"    - to set a signature
+-------------------------------------------------------------------------------------------------------------
+Create files to be added:
+1. Go to the folder where local repo is initialised and then create files there
+2. From terminal if you want to create, nano name.ext or notepad name.txt
+   After typing the desired content, save and exit (ctrl+S, ctrl+X), or ctrl+X
+3. cat name.ext command lets you see the content of the file
+
+4. To go to a specific folder in system cd foldername. To come back a step backwards cd ..
+--------------------------------------------------------------------------------------------------------------
+Committing files to local repo:
+git add .   -- Adds all files to stage (like adding to cart in an e commerce website)
+git add name1.ext  -- to add any one file
+git rm --cached name1.txt    -- to remove an added file
+git commit -m "Commit message"    --It is like checking out the cart
+--------------------------------------------------------------------------------------------------------------
+Remote repo creation: Go to git hub page and create a repository (make it public or private). 
+remote repo url will be https://github.com/username/reponame.git
+--------------------------------------------------------------------------------------------------------------
+Connect your remote repo to your local repo
+git remote add origin https://github.com/username/reponame.git
+git remote --v    #To show the urls of remote repo
+---------------------------------------------------------------------------------------------------------------
+**Check the name of the main branch in your local repo (master or main) master in windows, main in git hub or linux systems
+Until 2020, it was master, after that now its gonna be main
+Push files once you connect to remote repo. Whatever is committed will be pushed.
+#If your main branch is master and you want to rename it to main, then
+git branch -m master main
+
+git branch  #To give names of existing branches
+
+git push -u origin main
+
+---------------------------------------------------------------------------------------------------------------
+Some git commands used in the process
+git log
+git status
+git revert <commitid>   #To revert to a specific commit of the file
+---------------------------------------------------------------------------------------------------------------
+1. Retrieve data from some public repository:
+
+Step1: Get the url of the public repo: https://github.com/wepe/MachineLearning.git
+Step2: Two ways of taking data. Pull is for intended collaboration, and requires you to have a local repo and establish connection with remote repo
+1. Git pull: Create an empty local repo in the system. Add the remote repo as this public repo. Pull data (This can happen properly if your local repo is empty)
+git remote add origin https://github.com/wepe/MachineLearning.git
+git pull origin main
+
+2. Git clone: Enables you to download the folder into your system. Intended for onetime use without collaboration.
+git clone https://github.com/wepe/MachineLearning.git
+----------------------------------------------------------------------------------------------------------------
+
+2. In local repo we try to create a branch and learn about merging
+Creating a branch: git branch b1
+Checking out a branch(shifting to branch): git checkout b1
+Checking out to main: git checkout main
+
+Merging branch to main: git checkout main, git merge b1
+
+Case1: Fastforward merge
+git branch b1
+git checkout b1
+nano doc1.txt  ---Update it by adding a line and saving
+git add doc1.txt
+git commit -m "commit from branch"
+nano doc1.txt  ---update it by adding another line and saving
+git add doc1.txt
+git commit -m "2nd commit from branch"
+git checkout main
+git merge b1
+
+Case2: Merge conflict
+git branch b1
+git checkout b1
+nano doc1.txt  ---Update it by adding a line and saving
+git add doc1.txt
+git commit -m "Third commit from branch"
+nano doc1.txt  ---update it by adding another line and saving
+git add doc1.txt
+git commit -m "Fourth commit from branch"
+git checkout main
+nano doc1.txt  ---Update it by adding a line and saving
+git add doc1.txt
+git commit -m "third commit from main"
+nano doc1.txt  ---update it by adding another line and saving
+git add doc1.txt
+git commit -m "Fourth commit from main"
+git merge b1
+----------------------------------------------------------------------------------------------------------------
+3. Conflicts
+
+----Fast-forward Merge-----
+When your branch is few commits ahead of main and main is at the same state without updation, and when you merge branch with main, then that merge is called fast forward merge
+
+----Merge conflict-----
+$ git merge b1
+Auto-merging doc1.txt
+CONFLICT (content): Merge conflict in doc1.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+
+------One kind of pull conflict--------------------
+From https://github.com/ajtulloch/svmpy
+ * branch            master     -> FETCH_HEAD
+fatal: refusing to merge unrelated histories
+
+
+--------Push conflict---------
+When your local repo is outdated compared to your own remote repo (or any public repo where you push code to) then you get push conflict. To resolve it, you pull the latest version of remote repo, merge it into your folder, update it and then push it.
+
+1. pull it first: 
+git pull
+It will show conflicts, that need to be resolved manually.
+
+2. If it is entirely different, we may have to overwrite the local repo with the remote repo (this will discard the local repo files):
+git fetch origin
+git reset --hard orgin/main
+
+3. overwrite remote with local
+git push --force origin main
+
+---------------------------------------------------
+
+
+4. Rolling back to an older version
+1. git revert commitid  #To create a new commit with the changes undone by the commits after the specified commitid. The reverting will be saved as a new commit and history is preserved.
+2. git reset commitid  #To erase the intermediate commits (but they'll be unstaged, so still available for committing if you change your mind later) and go back to that commitid. The intermediate changes are erased from history.
